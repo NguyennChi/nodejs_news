@@ -1,0 +1,123 @@
+<% include ./../../helpers/image %>
+<% 
+const collection="settings" ; 
+const linkPrefix=systemConfig.prefixAdmin + `/${collection}/`; errors=errors ?? {}; 
+const folderUpload 	= `uploads/${collection}/`;
+
+%>
+<%- locals.flash %>
+	<div class="card card-info card-outline">
+		<form action="<%= linkPrefix %>save/" method="POST" class="mb-0" name="form-upload" enctype="multipart/form-data">
+			<div class="card-body">
+				<div class="row">
+					<div class="card card-primary card-tabs col-sm-12">
+						<div class="card-header p-0 pt-1">
+							<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+								<li class="nav-item" data-name="header">
+									<a class="nav-link" id="header-settings-tab" data-toggle="pill"
+										href="#header-settings" role="tab" aria-controls="header-settings"
+										aria-selected="true">Header</a>
+								</li>
+								<li class="nav-item" data-name="footer">
+									<a class="nav-link" id="footer-settings-tab" data-toggle="pill"
+										href="#footer-settings" role="tab" aria-controls="footer-settings"
+										aria-selected="false">Footer</a>
+								</li>
+							</ul>
+						</div>
+						<div class="card-body">
+							<div class="tab-content" id="custom-tabs-one-tabContent">
+								<div class="tab-pane fade show" id="header-settings" role="tabpanel"
+									aria-labelledby="header-settings-tab">
+
+									<div class="form-group row">
+										<label for="thumbnail" class="col-sm-2 col-form-label text-sm-right required">Logo</label>
+										<div class="col-xs-12 col-sm-8">
+											<div class="custom-file">
+												<input id="imgInp" class="form-control custom-file-input <%= errors.thumbnail && 'is-invalid' %>" type="file" name="thumbnail">
+												<label class="custom-file-label" for="imgInp">Choose file</label>
+												<%- `<span class="error invalid-feedback">${errors.thumbnail}</span>` %>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<div class="col-sm-2 col-form-label"></div>
+										<div class="col-xs-12 col-sm-8">
+										<%- imageHelper(folderUpload, item.logo, item.name,'200','200'); %>
+										</div>
+									</div>
+
+								</div>
+								<div class="tab-pane fade" id="footer-settings" role="tabpanel"
+									aria-labelledby="footer-settings-tab">
+									
+									<div class="form-group row">
+										<label for="name" class="col-sm-2 col-form-label text-sm-right required">Copyright</label>
+										<div class="col-xs-12 col-sm-8">
+											<input type="text" name="copyright" value="<%= item.copyright %>" class="form-control form-control-sm <%= errors.copyright && 'is-invalid' %>">
+											<span class="error invalid-feedback"><%= errors.copyright %></span>
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label for="description" class="col-sm-2 col-form-label text-sm-right required">Content</label>
+										<div class="col-xs-12 col-sm-8">
+											<textarea id="editor" name="content"><%= item.content  %></textarea>
+											<!-- <span class="error invalid-feedback">undefined</span> -->
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="col-12 col-sm-8 offset-sm-2">
+					<input class="form-control" name="id" value="<%= item.id %>" type="hidden">
+					<input name="image_old" value="<%= item.logo %>" type="hidden" />
+					<input name="image_uploaded" value="" type="hidden" id="image_uploaded" />
+					<input type="hidden" name="name" value="">
+					<button type="submit" class="btn btn-sm btn-success mr-1"> Submit</button>
+					<a href="<%= linkPrefix %>" class="btn btn-sm btn-danger mr-1"> Cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		ClassicEditor
+			.create( document.querySelector( '#editor' ) )
+			.catch( error => {
+							console.error( error );
+			} );
+			
+			imgInp.onchange = evt => {
+				const [file] = imgInp.files
+				if (file) {
+					showImage.src = URL.createObjectURL(file)
+					image_uploaded.setAttribute('value','uploaded')
+				}
+			}
+			function notImage(e,folder) {
+					e.setAttribute('src',folder+'no-avatar.png')
+			}
+	</script>
+	<script src="adminlte/js/jquery/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			let settings = localStorage.getItem('settings') || 'header';
+			$('form .nav-item').each(function( i, val ) {
+				let name = $(val).data('name');
+				if (name == settings) {			
+					$(val).children().click();
+				}
+			})
+			$('form .nav-item').click(function() {
+				localStorage.setItem('settings',$(this).data('name'))
+			});
+		});
+	</script>

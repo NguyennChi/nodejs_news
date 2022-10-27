@@ -1,0 +1,16 @@
+<% 
+    statusHelper = (collection, status, id) => {
+        let xhtmlStatus = '';
+        let link       = systemConfig.prefixAdmin + '/' + collection + '/ajax/status' ;
+        if(status === "active") {
+            xhtmlStatus = 'btn-success';
+        }else if (status === "inactive") {
+            xhtmlStatus = 'btn-warning';
+        }
+        return `<a href="javascript:void(0)" class="rounded-circle btn btn-sm ${xhtmlStatus} status" onClick="handleAjax('${linkAjax}','status','${id}',this)" data-value="${status}"><i class="fas fa-check"></i></a>`;
+    }
+%>
+
+
+
+

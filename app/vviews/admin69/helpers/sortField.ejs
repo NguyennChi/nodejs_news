@@ -1,0 +1,15 @@
+<% 
+    sortField = (linkPrefix, name, field, {sortField, sortType})  => {
+        let orderBy = sortType == 'asc' ? 'desc' : 'asc';
+        orderBy = field != sortField ? 'asc' : orderBy;
+        let link = linkPrefix + 'sort/' + field + '/' + orderBy;
+        let opacity = field == sortField ? 'opacity-100' : '';
+        let icon = `<i class="fas fa-long-arrow-alt-up ${sortType == 'asc' && opacity}"></i><i class="fas fa-long-arrow-alt-down ${sortType == 'desc' && opacity}"></i>`;
+        let xhtml = `<a href="${link}">${name} ${icon}</a>`;
+        return xhtml;
+    }
+%>
+
+
+
+

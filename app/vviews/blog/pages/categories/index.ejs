@@ -1,0 +1,44 @@
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/articlesList %>
+<main>
+  <% include ./../../elements/breadcrumb %>
+  <section class="rt-sidebar-section-layout-1" style="transform: none;">
+    <div class="container" style="transform: none;">
+      <div class="row gutter-40 sticky-coloum-wrap" style="transform: none;">
+        <div class="col-xl-9 sticky-coloum-item" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+          <!-- end rt-left-sidebar-sapcer-5 -->
+          <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 303.5px;">
+            <div class="rt-left-sidebar-sapcer-5">
+              <div class="post-list-style-4">
+              <%- show(articlesList) %>
+              </div>
+              <!-- end post-list-style-4 -->
+              <nav class="rt-pagination-area gap-top-90">
+                  <%- paginationHelper(paginationObj,'c/'+categorySlug) %>
+              </nav>
+              <!-- end rt-pagination-area -->
+            </div>
+            <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+              <div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                  <div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 1000px; height: 2435px;"></div>
+              </div>
+              <div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                  <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+        <% include ./../../elements/aside %>
+
+      </div>
+      <!-- end row  -->
+    </div>
+    <!-- end container -->
+  </section>
+</main>
+<script>
+  $(document).ready(function() {
+    window.scroll(0, 1);
+  })
+</script>

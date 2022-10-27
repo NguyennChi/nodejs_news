@@ -1,0 +1,12 @@
+<% 
+    imageHelper = (folder, imageName, alt = "Image",width="100",height="100") => {
+
+        if(imageName == null){ 
+            imageName = 'no-avatar.png';
+        }
+        return `<img class="img-thumbnail" src="${folder + imageName}" alt="${alt}" width=${width} style="object-fit: cover;height:${height}px;" id="showImage" onerror="notImage(this,'${folder}')" />`;
+    }
+%>
+
+
+

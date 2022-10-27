@@ -1,0 +1,196 @@
+<% include ./../../helpers/pagination %>
+  <% include ./../../helpers/articlesList %>
+    <main>
+      <% include ./../../elements/breadcrumb %>
+        <section class="rt-sidebar-section-layout-1" style="transform: none;">
+          <div class="container" style="transform: none;">
+            <div class="row gutter-40 sticky-coloum-wrap" style="transform: none;">
+
+              <div class="col-xl-9 sticky-coloum-item"
+                style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <!-- end rt-left-sidebar-sapcer-5 -->
+                <div class="theiaStickySidebar"
+                  style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;">
+                  <div class="rt-left-sidebar-sapcer-5">
+
+                    <div class="rt-main-post-single grid-meta">
+
+                      <!-- start post header -->
+                      <div class="post-header">
+                        <span class="rt-cat-primary"><%= category.name %></span>
+                        <h2 class="title">
+                          <%= article.title %>
+                        </h2>
+                        <div class="post-meta">
+                          <ul>
+                            <li>
+                              <span class="rt-meta">
+                                by <a href="javascript:void(0)" class="name">HaiDepTrai</a>
+                              </span>
+                            </li>
+                            <li>
+                              <span class="rt-meta">
+                                <i class="far fa-calendar-alt icon"></i>
+                                <%= dayjs().to(dayjs(article.createdAt)) %>
+                              </span>
+                            </li>  
+                          </ul>
+                        </div>
+                      </div>
+                      <!-- end post-header -->
+
+                      <!-- strat psot body -->
+                      <div class="post-body">
+                        <%- article.description %>
+                        <div class="ad-banner-img mt--45 mb--40">
+                          <a href="#">
+                             <img src="frontend/media/gallery/ad-banner_4.jpg" alt="ad-banner" width="960" height="150">
+                          </a>
+                        </div>
+                      </div>
+                      <!-- end post body -->
+
+                      <!-- start social-share-box-2 -->
+                      <div class="social-share-box-2 mb--40">
+                        <div class="row gutter-30">
+                          <div class="col-xl-7 col-lg-6">
+                            <div class="conent-block">
+                              <h4 class="block-tile mb--20">Popular Tags:</h4>
+                              <div class="tag-list">
+                                <a href="#" class="tag-link">beautiful</a>
+                                <a href="#" class="tag-link">travel</a>
+                                <a href="#" class="tag-link">technology</a>
+                                <a href="#" class="tag-link">politics</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xl-5 col-lg-6 d-flex justify-content-start justify-content-lg-end">
+                            <div class="conent-block">
+                              <h4 class="block-tile mb--20">Share This Post:</h4>
+                              <ul class="social-share-style-1 ">
+                                <li>
+                                  <a class="fb" target="_blank" href="https://www.facebook.com/">
+                                    <i class="social-icon fab fa-facebook-f"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="tw" target="_blank" href="https://twitter.com/">
+                                    <i class="social-icon fab fa-twitter"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="yu" target="_blank" href="https://www.youtube.com/">
+                                    <i class="social-icon fab fa-youtube"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="dr" target="_blank" href="https://dribbble.com/">
+                                    <i class="social-icon fab fa-dribbble"></i>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a class="dw" target="_blank" href="https://cloud.google.com/">
+                                    <i class="social-icon fas fa-cloud"></i>
+                                  </a>
+                                </li>
+
+                                <li>
+                                  <a class="wh" target="_blank" href="https://www.whatsapp.com/">
+                                    <i class="social-icon fab fa-whatsapp"></i>
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end social-share-box-2 -->
+                
+                    <% if(relative.length > 0) { %> 
+                      <div class="related-post-box">
+                        <div class="titile-wrapper mb--40">
+                          <h2 class="rt-section-heading mb-0 flex-grow-1 me-3">
+                            <span class="rt-section-text">Related Post </span>
+                            <span class="rt-section-dot"></span>
+                            <span class="rt-section-line"></span>
+                          </h2>
+  
+                          <div class="slider-navigation style-2">
+                            <i class="fas fa-chevron-left slider-btn btn-prev"></i>
+                            <i class="fas fa-chevron-right slider-btn btn-next"></i>
+                          </div>
+                        </div>
+                        <!-- end titile-wrapper -->
+  
+                        <div class="swiper-container rt-post-slider-style-5">
+                          <div class="swiper-wrapper">
+                            <% relative.forEach(item => { %>
+                              <div class="swiper-slide">
+                                <div class="slide-item">
+                                  <div class="rt-post-grid grid-meta">
+                                    <div class="post-img">
+                                      <a href="p/<%= item.slug %>">
+                                        <img src="uploads/articles/<%= item.thumbnail %>" alt="post" width="551" height="431" style="height:180px;object-fit: contain;">
+                                      </a>
+                                    </div>
+                                    <div class="post-content">
+                                      <a href="c/<%= category.slug %>" class="rt-post-cat-normal"><%= category.name %></a>
+                                      <h4 class="post-title">
+                                        <a href="p/<%= item.slug %>">
+                                          <%= item.title %>
+                                        </a>
+                                      </h4>
+                                      <span class="rt-meta">
+                                        <i class="far fa-calendar-alt icon"></i>
+                                        <%= dayjs().to(dayjs(item.createdAt)) %>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- end swiper slide -->
+                            <% }) %>
+                            
+  
+  
+                          </div>
+                          <!-- end swiper wrapper -->
+                        </div>
+                        <!-- end swiper container + editor-choice-slider-style-1  -->
+  
+                      </div>
+                      <!-- end related-post-box -->
+                    <% } %>
+                    </div>
+                    <!-- end rt-main-post-single -->
+                  </div>
+                  <div class="resize-sensor"
+                    style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+                    <div class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                      <div
+                        style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 958px; height: 5031px;">
+                      </div>
+                    </div>
+                    <div class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                      <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <% include ./../../elements/aside %>
+
+            </div>
+            <!-- end row  -->
+          </div>
+          <!-- end container -->
+        </section>
+    </main>
+    <script>
+      $(document).ready(function () {
+        window.scroll(0, 1);
+      })
+    </script>

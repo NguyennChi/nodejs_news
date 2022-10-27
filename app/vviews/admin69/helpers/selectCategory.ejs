@@ -1,0 +1,38 @@
+<% 
+  selectCategory = (
+    listCategory,
+    currentCategory,
+    page,
+    error = null,
+    link = null,
+    idArticles = null,
+    field = 'categoriesId',
+    collection = null,
+    except = []
+  ) => {
+    optionCategory = (listCategory, parentId = 0, indent = 0) => {
+      let xhtml = '';
+      listCategory.forEach((item,index)=> {
+        if(except.includes(item.name)) return '';
+        let selected = item.id == currentCategory ? 'selected' : '';
+        let str = '';
+        for(let i = 0; i < indent; i++) {
+          str += `- - `
+        }
+        if(parentId == item.parentId) { 
+          xhtml += `<option value="${item._id}" ${selected}>${str + item.name}</option>`;
+          xhtml += optionCategory(listCategory,item.id, indent + 1);
+        }
+      }) 
+      return xhtml;
+    }
+
+    let xhtml = `<select class="custom-select custom-select-sm ${error && 'is-invalid'}" name="${field}" onChange="handleAjax('${link}','${field}','${idArticles}',this)">`;
+    xhtml += page == 'form' || collection == 'menu' ? 
+    '<option value="0">----- Root -----</option>' : '';
+    xhtml += optionCategory(listCategory)
+    xhtml += `</select><span class="error invalid-feedback">${error}</span>`
+    return xhtml;
+  }
+  
+%>

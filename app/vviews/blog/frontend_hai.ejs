@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<% include elements/head %>
+</head>
+<body>
+  <!-- Start wrapper -->
+  <div id="wrapper" class="wrapper">
+		<%# include elements/preLoader %>
+    <!-- Start main-content -->
+    <div id="main_content" class="footer-fixed">
+      <% include elements/header %>
+      <!-- Start Main -->
+      <%- body %>
+      <!-- End Main -->
+      <% include elements/footer %>
+    </div>
+    <!-- End main-content -->
+    <% include elements/search %>
+    <% include elements/theme %>
+    <!-- start back to top -->
+    <a href="javascript:void(0)" id="back-to-top">
+      <i class="fas fa-angle-double-up"></i>
+    </a>
+    <!-- End back to top -->
+  </div>
+  <!-- End wrapper -->
+	<% include elements/script %>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<% 
+
+    sortFielder = (linkPrefix, name, sortField, sortFieldCurrent, sortTypeCurrent) => {
+
+        let order = (sortTypeCurrent == 'asc') ? 'desc' : 'asc';
+        order = sortField != sortFieldCurrent ? 'asc' : order;
+        let link = linkPrefix + 'sort/' + sortField + '/' + order;
+        let opacity = (sortField == sortFieldCurrent) ? 'opacity-100' : '';
+        let icon = `<i class="fas fa-long-arrow-alt-up ${sortTypeCurrent == 'asc' && opacity}"></i><i class="fas fa-long-arrow-alt-down ${sortTypeCurrent == 'desc' && opacity}"></i>`;
+        let xhtml = `<a href="${link}">${name} ${icon}</a>`;
+        return xhtml;
+    }
+%>
+

@@ -1,2 +1,2 @@
-tắt middleware
-tắt listcategory
+fix ajax group
+validate group

@@ -1,0 +1,90 @@
+<%  
+    let arrMenu = [
+        {parent: false, name: 'Dashboard', icon: 'fa-solid fa-gauge', link: `${systemConfig.prefixAdmin}/dashboard`},
+        {parent: false, name: 'Slider', icon: 'fa-solid fa-clipboard', link: `${systemConfig.prefixAdmin}/sliders`},
+        {parent: true, child: [
+          { name: 'Group', icon: 'fa-solid fa-user-group', link: `group`},
+          { name: 'User', icon: 'fa-solid fa-user', link: `users`},
+                              ], name: 'Manage User', icon: 'fa-solid fa-people-roof', link: `/${systemConfig.prefixAdmin}/`},
+        {parent: true, child: [
+          { name: 'Category', icon: 'fa-solid fa-list-alt', link: `category`},
+          { name: 'Article', icon: 'fa-solid fa-newspaper', link: `article`},
+          { name: 'Menu Bar', icon: 'fa-solid fa-align-justify', link: `menu`},
+                              ], name: 'Manage Article', icon: 'fa-sharp fa-solid fa-bars-progress', link: `/${systemConfig.prefixAdmin}/`},
+        {parent: true, child: [
+          { name: 'RSS', icon: 'fa-solid fa-square-rss', link: `rss`},
+          { name: 'Weather', icon: 'fa-solid fa-cloud', link: `weather`},
+                              ], name: 'Manage Extention', icon: 'fa-solid fa-layer-group', link: `/${systemConfig.prefixAdmin}/`},
+        {parent: false, name: 'Setting', icon: 'fa-solid fa-images', link: `${systemConfig.prefixAdmin}/setting`},
+    ];
+    
+    let xhtmlMenu = '';
+    arrMenu.forEach(menu => {
+      if(menu.parent == false){
+        xhtmlMenu += `<li class="nav-item">
+                          <a href="/${menu.link}" class="nav-link">
+                            <i class="${menu.icon}" style="margin-right: 10px;"></i>
+                            <p>
+                              ${menu.name}
+                            </p>
+                          </a>
+                     </li>`;
+      } else if(menu.parent == true){
+        let childHtml = ''
+        menu.child.forEach(function(childrenEntry){
+          childHtml+= `
+                      <li class="nav-item">
+                        <a href="${menu.link}${childrenEntry.link}" class="nav-link">
+                          <i class="${childrenEntry.icon}"></i>
+                          <p>${childrenEntry.name}</p>
+                        </a>
+                      </li>
+                      `
+        })
+        xhtmlMenu+=`
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="nav-icon ${menu.icon}"></i>
+                        <p>
+                          ${menu.name}
+                          <i class="fas fa-angle-left right"></i>
+                        </p>
+                      </a>
+                      <ul class="nav nav-treeview" style="display: none;">
+                            ${childHtml}
+                      </ul>
+                    </li>
+                `
+      }
+    });   
+%>
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="/backend/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="/backend/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Alexander Pierce</a>
+        </div>
+      </div>
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+               <%- xhtmlMenu %>
+
+
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

@@ -1,0 +1,297 @@
+<%- include('./../../helpers/showerror'); -%>
+<%- include('./../../helpers/showsucess'); -%>
+
+<% 
+    const collection="setting" ; 
+    const linkPrefix="/" + systemConfig.prefixAdmin + `/${collection}/`; 
+    const linkThumb="/" + "uploads" + `/${collection}/`; 
+%>
+        <%- showSucess(main.inform.success) %>
+        <div class="card card-info card-outline">
+            <form action="<%= linkPrefix %>save/<%=settingObj.id%>" method="POST" class="mb-0" enctype="multipart/form-data">
+                <div class="card-body">
+                    <%= main.pageTitle %>
+                        <div class="col-12 col-md-10 col-sm-10 mt-2 mx-auto">
+                            <%- showError(main.showError) %>
+                            <div class="card card-primary card-tabs">
+                                <div class="card-header p-0 pt-1">
+                                    <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill"
+                                                href="#custom-tabs-one-home" role="tab"
+                                                aria-controls="custom-tabs-one-home" aria-selected="true">Cấu hình chung</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                                href="#custom-tabs-one-profile" role="tab"
+                                                aria-controls="custom-tabs-one-profile"
+                                                aria-selected="false">Social Network</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-one-contact-tab" data-toggle="pill"
+                                                href="#custom-tabs-one-contact" role="tab"
+                                                aria-controls="custom-tabs-one-contact"
+                                                aria-selected="false">Contact</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="custom-tabs-one-script-tab" data-toggle="pill"
+                                                href="#custom-tabs-one-script" role="tab"
+                                                aria-controls="custom-tabs-one-script"
+                                                aria-selected="false">Script</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content" id="custom-tabs-one-tabContent">
+                                        <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel"
+                                            aria-labelledby="custom-tabs-one-home-tab">
+                                            <div class="form-group row">
+                                                <label for="title" class="col-sm-2 col-form-label text-sm-right required">Title</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" id="title-input-form" name="title" value="<%= item.title %>" class="form-control form-control-sm"></div>
+                                            </div>
+                                            <div class="form-group row uploadImage">
+                                                <label for="logoLarge" class="col-sm-2 col-form-label text-sm-right">Upload Large Logo</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input id="ImageMediasLarge" name="logoLarge" type="file" class="custom-file-input" value="LogoLarge">
+                                                    <div id="divImageMediaPreviewLogoLarge">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row ckeditor">
+                                                <label for="logoLarge" class="col-sm-2 col-form-label text-sm-right">Large Logo</label>
+                                            <% if (item.logolarge != undefined) { %>
+                                                <img style="width: 15%; padding: 10px" src="<%= linkThumb %><%= item.logolarge%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+                                                <%}  %>
+                                            </div>
+                                            <div class="form-group row uploadImage">
+                                                <label for="logoSmall" class="col-sm-2 col-form-label text-sm-right">Upload Small Logo</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input id="ImageMediasSmall" name="logoSmall" type="file" class="custom-file-input" value="LogoSmall">
+                                                    <div id="divImageMediaPreviewLogoSmall">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row ckeditor">
+                                                <label for="logoSmall" class="col-sm-2 col-form-label text-sm-right">Small Logo</label>
+                                            <% if (item.logosmall != undefined) { %>
+                                                <img style="width: 15%; padding: 10px" src="<%= linkThumb %><%= item.logosmall%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+                                                <%}  %>
+                                            </div>
+                                            <div class="form-group row uploadImage">
+                                                <label for="logoTitle" class="col-sm-2 col-form-label text-sm-right">Upload Logo Title</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input id="ImageMediasTitle" name="logoTitle" type="file" class="custom-file-input" value="LogoTitle">
+                                                    <div id="divImageMediaPreviewLogoTitle">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row ckeditor">
+                                                <label for="logoTitle" class="col-sm-2 col-form-label text-sm-right">Title Logo</label>
+                                            <% if (item.logotitle != undefined) { %>
+                                                <img style="width: 15%; padding: 10px" src="<%= linkThumb %><%= item.logotitle%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+                                                <%}  %>
+                                            </div>
+                                            <div class="form-group row uploadImage">
+                                                <label for="logoBanner" class="col-sm-2 col-form-label text-sm-right">Upload Logo Banner</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input id="ImageMediasBanner" name="logoBanner" type="file" class="custom-file-input" value="LogoBanner">
+                                                    <div id="divImageMediaPreviewLogoBanner">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row ckeditor">
+                                                <label for="logoBanner" class="col-sm-2 col-form-label text-sm-right">Banner Logo</label>
+                                            <% if (item.logobanner != undefined) { %>
+                                                <img style="width: 30%; padding: 10px" src="<%= linkThumb %><%= item.logobanner%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+                                                <%}  %>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="coppyright" class="col-sm-2 col-form-label text-sm-right required">Coppyright</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" id="title-input-form" name="coppyright" value="<%= item.coppyright %>" class="form-control form-control-sm"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="address" class="col-sm-2 col-form-label text-sm-right required">Adress</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" id="address-input-form" name="address" value="<%= item.address %>" class="form-control form-control-sm"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="phonenumber" class="col-sm-2 col-form-label text-sm-right required">Phone Number</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="phonenumber" id="number-input-form" name="phonenumber" value="<%= item.phonenumber %>" class="form-control form-control-sm"></div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="email" class="col-sm-2 col-form-label text-sm-right required">Email</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="email" id="number-input-form" name="email" value="<%= item.email %>" class="form-control form-control-sm"></div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                            aria-labelledby="custom-tabs-one-profile-tab">
+                                            <div class="form-group row">
+                                                <label for="linkfacebook" class="col-sm-2 col-form-label text-sm-right">Facebook</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="linkfacebook" id="urlFacebook"
+                                                    placeholder="https://example.com"
+                                                    pattern="https://.*" size="30" class="form-control form-control-sm"
+                                                    value="<%= item.linkfacebook %>"
+                                                    required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="linkTwitter" class="col-sm-2 col-form-label text-sm-right">Twitter</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="linkTwitter" id="urlTwitter"
+                                                    placeholder="https://example.com"
+                                                    pattern="https://.*" size="30" class="form-control form-control-sm"
+                                                    value="<%= item.linkTwitter %>"
+                                                    required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="linkInstagram" class="col-sm-2 col-form-label text-sm-right">Instagram</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="linkInstagram" id="urlInstagram"
+                                                    placeholder="https://example.com"
+                                                    pattern="https://.*" size="30" class="form-control form-control-sm"
+                                                    value="<%= item.linkInstagram %>"
+                                                    required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="linkYoutube" class="col-sm-2 col-form-label text-sm-right">Youtube</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="linkYoutube" id="urlYoutube"
+                                                    placeholder="https://example.com"
+                                                    pattern="https://.*" size="30" class="form-control form-control-sm"
+                                                    value="<%= item.linkYoutube %>"
+                                                    required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="linkLinkedIn" class="col-sm-2 col-form-label text-sm-right">LinkedIn</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="linkLinkedIn" id="urlLinkedIn"
+                                                    placeholder="https://example.com"
+                                                    pattern="https://.*" size="30" class="form-control form-control-sm"
+                                                    value="<%= item.linkLinkedIn %>"
+                                                    required>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-one-contact" role="tabpanel"
+                                            aria-labelledby="custom-tabs-one-contact-tab">
+                                            <div class="form-group row">
+                                                <label for="linkfacebook" class="col-sm-2 col-form-label text-sm-right">Liên Hệ 1</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" name="contactone" id="contactOne"  placeholder="090.0000.000">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="contacttwo" class="col-sm-2 col-form-label text-sm-right">Liên Hệ 2</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" name="contacttwo" id="contactTwo"
+                                                    placeholder="090.0000.000">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="contactthree" class="col-sm-2 col-form-label text-sm-right">Liên Hệ 3</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" name="contactthree" id="contactThree"
+                                                    placeholder="090.0000.000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="custom-tabs-one-script" role="tabpanel"
+                                            aria-labelledby="custom-tabs-one-script-tab">
+                                            <div class="form-group row">
+                                                <label for="scriptheader" class="col-sm-2 col-form-label text-sm-right">Script cho Header</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="text" name="scriptheader" id="scriptHeader">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="googlemap" class="col-sm-2 col-form-label text-sm-right">Google Map</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="googlemap" id="googleMap"  placeholder="<script>....</script>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="googleanalyst" class="col-sm-2 col-form-label text-sm-right">Google Analyst</label>
+                                                <div class="col-xs-12 col-sm-8">
+                                                    <input type="url" name="googleanalyst" id="googleAnalyst"
+                                                    placeholder="<script>....</script>">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                </div>
+                <div class="card-footer">
+                    <input name="image_old_large" value="<%= item.logolarge%>" type="hidden">
+				    <input name="image_uploaded_large" value="" type="hidden" id="image_uploaded_large">
+                    <input name="image_old_small" value="<%= item.logosmall%>" type="hidden">
+				    <input name="image_uploaded_small" value="" type="hidden" id="image_uploaded_small">
+                    <input name="image_old_title" value="<%= item.logotitle%>" type="hidden">
+				    <input name="image_uploaded_title" value="" type="hidden" id="image_uploaded_title">
+                    <input name="image_old_banner" value="<%= item.logobanner%>" type="hidden">
+				    <input name="image_uploaded_banner" value="" type="hidden" id="image_uploaded_banner">
+                    <div class="col-12 col-sm-8 offset-sm-2">
+                        <button type="submit" class="btn btn-sm btn-success mr-1">
+                            Submit</button>
+                        <a href="<%= linkPrefix %>/" class="btn btn-sm btn-danger mr-1">
+                            Cancel</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <script src="/plugins/jquery/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Summernote -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+        <script>
+            ImageMediasLarge.onchange = evt => {
+                const [file] = ImageMediasLarge.files
+                if (file) {
+                    image_uploaded_large.setAttribute('value', 'uploaded')
+                } else {
+                    image_uploaded_large.setAttribute('value', '')
+                }
+            }
+
+            ImageMediasSmall.onchange = evt => {
+                const [file] = ImageMediasSmall.files
+                if (file) {
+                    image_uploaded_small.setAttribute('value', 'uploaded')
+                } else {
+                    image_uploaded_small.setAttribute('value', '')
+                }
+            }
+
+            ImageMediasTitle.onchange = evt => {
+                const [file] = ImageMediasTitle.files
+                if (file) {
+                    image_uploaded_title.setAttribute('value', 'uploaded')
+                } else {
+                    image_uploaded_title.setAttribute('value', '')
+                }
+            }
+
+            ImageMediasBanner.onchange = evt => {
+                const [file] = ImageMediasBanner.files
+                if (file) {
+                    image_uploaded_banner.setAttribute('value', 'uploaded')
+                } else {
+                    image_uploaded_banner.setAttribute('value', '')
+                }
+            }
+        </script>

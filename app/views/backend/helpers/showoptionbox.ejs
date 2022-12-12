@@ -1,0 +1,50 @@
+<% 
+    showOptionBox = (id, slider, toppost, breakingnews, fearture) => {
+        let isChecked = (param) =>{
+            if (param == true) return 'checked'
+            return
+        }
+
+        let html = ``
+        if(id !== undefined){
+            html = `
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="slider-${id}" id="slider-${id}" value="true" ${isChecked(slider)}>
+                <label for="slider-${id}" class="custom-control-label">Show Slider</label>
+                </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="toppost-${id}" id="toppost-${id}" value="true" ${isChecked(toppost)}>
+                <label for="toppost-${id}" class="custom-control-label">Show Toppost</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox"  name="breakingnews-${id}" id="breakingnews-${id}" value="true" ${isChecked(breakingnews)}>
+                <label for="breakingnews-${id}" class="custom-control-label">Show Breaking News</label>
+                </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="fearture-${id}"  id="fearture-${id}" value="true" ${isChecked(fearture)}>
+                <label for="fearture-${id}" class="custom-control-label">Show Featured News </label>
+            </div>
+            `
+        } else{
+            html = `
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="slider" id="slider" value="true" >
+                <label for="slider" class="custom-control-label">Show Slider</label>
+                </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="toppost" id="toppost" value="true" >
+                <label for="toppost" class="custom-control-label">Show Toppost</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox"  name="breakingnews" id="breakingnews" value="true" >
+                <label for="breakingnews" class="custom-control-label">Show Breaking News</label>
+                </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" name="fearture"  id="fearture" value="true">
+                <label for="fearture" class="custom-control-label">Show Featured News </label>
+            </div>
+            `
+        }
+        return html;
+    }
+%>

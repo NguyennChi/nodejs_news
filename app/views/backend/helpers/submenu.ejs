@@ -1,0 +1,11 @@
+<%
+    subMenu = (item, parentMenuList) => {
+        parentMenuList.forEach( (parent, index) => { 
+            let html =  `<option value="parent._id"> parent.name </option>`
+            if (parent._id == item){
+                html =  `<option value="parent._id" selected> parent.name </option>`
+           } 
+           return html
+        }) 
+    }
+%>

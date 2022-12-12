@@ -1,0 +1,24 @@
+<%
+  showError = (error) =>{
+      if (!error) return;
+      let html = ""
+      error.forEach((obj) =>{
+          let name ='' 
+          if (obj.param == 'logoSmall'){
+            name = 'for Large Small'
+          } else if(obj.param == 'logoTitle'){
+            name = 'for Large Title'
+          } else if(obj.param == 'logoLarge'){
+            name = 'for Large Large'
+          }
+          html += `
+          <div class="alert alert-warning alert-dismissible">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+              ${obj.msg} ${name}
+          </div>
+          `
+      })
+    return html
+  }
+%>

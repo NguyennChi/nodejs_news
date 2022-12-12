@@ -1,0 +1,170 @@
+<%- include('./../../helpers/status'); -%>
+<%- include('./../../helpers/highlight'); -%>
+<%- include('./../../helpers/pagination'); -%>
+<%- include('./../../helpers/showsucess'); -%>
+<%- include('./../../helpers/sortFiller'); -%>
+<%- include('./../../helpers/showoptionbox'); -%>
+<%- include('./../../helpers/groupsHelp'); -%>
+<% 
+   const collection = "article";
+   const linkPrefix = "/" + systemConfig.prefixAdmin + `/${collection}/`;
+   const linkThumb = "/" + "uploads" + `/${collection}/`;
+   %>
+
+<%- showSucess(inform.success) %>
+<div class="row mb-2">
+   <div class="col-sm-6">
+      <h1 class="m-0"><%= pageTitle %></h1>
+   </div>
+</div>
+<div class="card card-info card-outline">
+   <div class="card-header">
+      <h6 class="card-title">Search & Filter</h6>
+      <div class="card-tools">
+         <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fas fa-minus"></i></button>
+         <a href='<%= linkPrefix %>' class="btn btn-tool"><i class="fas fa-sync"></i></a>
+      </div>
+   </div>
+   <div class="card-body">
+      <div class="row justify-content-between">
+         <div class="mb-1">
+            <div class="btn-search">
+               <% statusFilter.forEach( (item, index) => { %>
+                  <button type="button" class="btn btn-<%= item.class %>" onClick="location.href='<%= linkPrefix %>status/<%= item.value %>'" id="count-items-<%= item.value %>"><%= item.name %> (<span><%= item.count %></span>)</button>
+                  <% }) %>
+            </div>
+         </div>
+         <div class="mb-1">
+            <form action="<%= linkPrefix %>status/<%= currentStatus %>" method="get">
+               <div class="input-group">
+                  <input type="text" class="form-control form-control-sm" name="keyword" value="<%= keyword %>" placeholder="Search for..." style="min-width: 300px">
+                  <div class="input-group-append">
+                     <a type="button" class="btn btn-sm btn-danger"  href="<%= linkPrefix %>status/<%= currentStatus %>">Clear</a>
+                     <button type="submit" class="btn btn-sm btn-info" id="btn-search">Search</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="card card-info card-outline">
+   <div class="card-header">
+      <h4 class="card-title pd-10">List Fillter</h4>
+      <div class="card-tools">
+         <div class="btn-group">
+            <button type="button" class="btn btn-info" data-toggle="dropdown" aria-expanded="false">Change Status</button>
+            </>
+            <div class="dropdown-menu" role="menu" >
+                    <!-- <a class="dropdown-item" href="javascript:changeMultiStatus('active','<%= linkPrefix%>change-status/multi')">Change to Active</a> -->
+                    <button type="button" onClick="changeMultiStatus('active','<%= linkPrefix%>change-status/multi')" class="dropdown-item" data-toggle="modal" data-target="#modal-success">
+                    Change to Active
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" onClick="changeMultiStatus('inactive','<%= linkPrefix%>change-status/multi')" class="dropdown-item" data-toggle="modal" data-target="#modal-danger">
+                    Change to Inactive
+                    </button>
+                </div>
+         </div>
+         <button type="button" class="btn btn-danger" onClick="deleteMultiItems('<%= linkPrefix%>delete/multi')" data-toggle="modal" data-target="#modal-danger">
+            <i class="fas fa-trash-alt"></i>Delete Multi
+            </button>
+         <a href="<%= linkPrefix %>form/" class="btn btn-warning" style="background-color: #F0AD4E; color: white; font-weight: 500;">Add New</a>
+         <!-- <a href="javascript: class="btn btn-tool" style="background-color: #C82333; color: white; font-weight: 500;">Delete Multi</a> -->
+      </div>
+      <div class="col-xs-4 col-sm-2">
+         <%- groupSelectHelper('Filter-category', category, categoryId) %>
+     </div>   
+   </div>
+   <div class="card-body">
+      <!-- Control -->
+      <form action="" method="get" class="table-responsive" id="zt-form">
+         <!-- List Content -->
+         <table class="table table-bordered table-hover text-nowrap btn-table mb-0">
+            <thead>
+               <tr>
+                  <th class="text-center">
+                     <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input cbAll" type="checkbox" id="check-all">
+                        <label for="check-all" class="custom-control-label"></label>
+                     </div>
+                  </th>
+                  <th class="text-center">#</a></th>
+                  <th  class="text-center">
+                    <%- sortFielder (linkPrefix,'Name','name',sortField,sortType)  %>
+					</th>
+                    <th class="text-center">
+                        <%- sortFielder (linkPrefix,'Category','category',sortField,sortType)  %>
+                    </th>
+                    <th class="text-center">Option</a></th>
+                  <th class="text-center">thumb</a></th>
+                 
+                  <th class="text-center ">Status</a></th>
+                  <th   class="text-center">
+                     <%- sortFielder (linkPrefix,'Ordering','ordering',sortField,sortType)  %>
+				    </th>
+                    
+                  <th class="text-center">Action</th>
+               </tr>
+            </thead>
+            <tbody>
+               <% if(items.length > 0) { %>
+                  <% items.forEach( (item, index) => { %>
+                  <tr id="area-<%= item.id %>">
+                     <td class="text-center">
+                        <div class="custom-control custom-checkbox">
+                           <input class="custom-control-input" data-status="<%= item.status %>" data-name ="<%= item.name %>" type="checkbox" id="<%= item.id %>" name="cid" value="<%= item.id %>">
+                           <label for="<%= item.id %>" class="custom-control-label"></label>
+                        </div>
+                     </td>
+                     <td class="text-center"><%= index+1 %></td>
+                     <td class="text-center" data-name ="<%= item.name %>"  id=""><%- highlightHelper(item.name, keyword) %></td>
+                     <td class="text-center position-relative" >
+                        <select id="category" data-id="<%= item.id %>" name="category" class="custom-select custom-select-sm">
+                            <% category.forEach( (value, index) => { %>
+                                <% if(value.id == item.categoryId){ %>
+                                    <option value="<%= value.id %>" selected><%= value.name %></option>
+                                    <% } else{ %>  
+                                    <option value="<%= value.id %>"><%= value.name %></option>
+                                 <% } %>
+                            <% }) %>
+                        </select>
+                    </td>
+                    <td class="text-center position-relative">
+                        <div class="option">
+                            <%- showOptionBox(item.id, item.slider, item.toppost, item.breakingnews, item.fearture)  %>
+                        </div>
+                     </td>
+                     <td class="text-center" id="thumb-item-<%= item.id%>">
+                        <img class="thumb-user" src="<%= linkThumb %><%= item.thumb%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+					</td>
+                     <td class="text-center position-relative" id="status-item-<%= item.id %>">
+                        <%- statusHelper(collection, item.status, item.id)  %>
+                     </td>
+                     <td class="text-center position-relative" >
+                        <input type="number" id="change-ordering-<%= item.id%>" name="items-ordering" data-router="<%= linkPrefix+'change-ordering'%>" data-id="<%= item.id%>"  value="<%= item.ordering%>" class="text-center ordering">
+                     </td>
+                     <td class="text-center">
+                        <a href="<%= linkPrefix %>form/<%= item.id %>" class="rounded-circle btn btn-sm btn-info" title="Edit">
+                           <i class="fas fa-pencil-alt"></i>
+                        </a>
+
+                        <button type="button" class="rounded-circle btn btn-sm btn-danger" onClick="deleteItem('<%= item.id %>', '<%= item.name %>','<%= linkPrefix%>delete/')" data-toggle="modal" data-target="#modal-danger">
+                           <i class="fas fa-trash-alt"></i>
+                        </button>
+                     </td>
+                  </tr>
+                  <% }) %>
+               <% } else { %>
+                  <tr><td class="text-center " colspan="9" ><h3 >Không có dữ liệu!</h3></td></tr>
+               <% } %>
+            </tbody>
+         </table>
+      </form>
+   </div>
+   <div class="card-footer clearfix">
+   </div>
+   <div class="col-lg-12">
+      <%- paginationHelper(pagination, collection, currentStatus, keyword) %>
+   </div>
+</div>

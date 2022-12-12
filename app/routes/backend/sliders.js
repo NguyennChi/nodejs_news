@@ -1,178 +1,248 @@
 var express = require('express');
 var router 	= express.Router();
-const util = require('util');
 const { body, validationResult } = require('express-validator');
-var slug = require('slug');
+var util = require('util')
 
-const Collection = 'sliders';
-const systemConfig  = require(__path_configs + 'system');
-const notify  		= require(__path_configs + 'notify');
-const Model 		= require(__path_models + Collection);
-const SlidersModel 	= require(__path_schemas + Collection);
-// const ValidateSliders	= require(__path_validates + 'sliders');
-const UtilsHelpers 	= require(__path_helpers + 'utils');
-const ParamsHelpers = require(__path_helpers + 'params');
-const FileHelpers = require(__path_helpers + 'file');
 
-const linkIndex		 = '/' + systemConfig.prefixAdmin + `/${Collection}/`;
-const pageTitleIndex = UtilsHelpers.firstLetterUppercase(Collection) + ' Management';
-const pageTitleAdd   = pageTitleIndex + ' - Add';
-const pageTitleEdit  = pageTitleIndex + ' - Edit';
-const folderView	 = __path_view_admin + `pages/${Collection}/`;
-const uploadAvatar	 = FileHelpers.upload('avatar', Collection);
-// List items
+const routerName 				= "sliders"
+const pageTitle 				= ` Sliders  Management`
+const folderView				= __path_views_backend + `/pages/${routerName}/`;
+const layout 					= __path_views_backend + 'backend';
+
+const schemaSlider 				= require(__path_schemas + routerName);
+const systemConfig 				= require(__path_configs + 'system');
+const notify 					= require(__path_configs + 'notify');
+const UtilsHelpers 				= require(__path_helpers + 'utils');
+const ParamsHelpers 			= require(__path_helpers + 'params');
+
+const linkIndex 				= '/' + systemConfig.prefixAdmin + '/' + routerName;
+
+// list Items
 router.get('(/status/:status)?', async (req, res, next) => {
-	let objWhere	 = {};
-	let keyword		 = ParamsHelpers.getParam(req.query, 'keyword', '');
-	let currentStatus= ParamsHelpers.getParam(req.params, 'status', 'all'); 
-	let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus,Collection);
-	let sort = req.session;
-	let pagination 	 = {
-		totalItems		 : 1,
-		totalItemsPerPage: 4,
-		currentPage		 : parseInt(ParamsHelpers.getParam(req.query, 'page', 1)),
-		pageRanges		 : 3
-	};
-
-	if(currentStatus !== 'all') objWhere.status = currentStatus;
-	if(keyword !== '') objWhere.name = new RegExp(keyword, 'i');
-	pagination.totalItems = await Model.countRow(objWhere);
-
-	Model
-		.getList(objWhere,pagination,sort)
-		.then( (items) => {
-			res.render(`${folderView}list`, { 
-				pageTitle: pageTitleIndex,
-				items,
-				statusFilter,
-				pagination,
-				currentStatus,
-				keyword,
-				sort
-			});
+	try {
+		let inform = req.flash()
+		let objWhere = {};
+		let currentStatus = ParamsHelpers.getParam(req.params, 'status', 'all');
+		let statusFilter = await UtilsHelpers.createFilterStatus(currentStatus, routerName);
+		let keyword = ParamsHelpers.getParam(req.query, 'keyword', '');
+		let sortField = ParamsHelpers.getParam(req.session, 'sortField', 'ordering');
+		let sortType = ParamsHelpers.getParam(req.session, 'sortType', 'desc');
+		let sort	=  {};
+		sort[sortField] = sortType;
+		let pagination = {
+			totalItems: 1,
+			totalItemsPerPage: 3,
+			currentPage: parseInt(ParamsHelpers.getParam(req.query, 'page', 1)),
+			pageRanges: 3
+		};
+		if (currentStatus !== 'all') objWhere = {status: currentStatus};
+		if (keyword !== '') objWhere.name = new RegExp(keyword, 'i');
+		await schemaSlider.count(objWhere).then((data) => {
+			pagination.totalItems = data;
 		});
-});
-// ajax
-router.post('/ajax', (req, res, next) => {
-	req.body.modified = {userId: 0,username: 'admin',time: Date.now()};
-	Model.updateOne(req.body).then(() => {
-		res.send(req.body);
-	});
-});
-//slug
-router.post('/slug', (req, res, next) => {
-	res.send(JSON.stringify(slug(req.body.value)));
-});
-// Change status - Multi
-router.post('/change-status/:status', (req, res, next) => {
-	req.body.modified = {userId: 0,username: 'admin',time: Date.now()};
-	let currentStatus	= ParamsHelpers.getParam(req.params, 'status', 'active'); 
-	Model.updateMany(req.body,'status',currentStatus).then((result, err ) => {
-		req.flash('success', util.format(notify.CHANGE_STATUS_MULTI_SUCCESS, result.n) , linkIndex);
-	});
-});
-// Sort
-router.get('/sort/:field/:type', (req, res, next) => {
-	req.session.sortField = req.params.field;
-	req.session.sortType = req.params.type;
-	res.redirect(linkIndex)
-});
-// Change ordering - Multi
-router.post('/change-ordering', (req, res, next) => {
-	let cids 		= req.body.cid;
-	let orderings 	= req.body.ordering;
-	
-	if(Array.isArray(cids)) {
-		cids.forEach((item, index) => {
-			SlidersModel.updateOne({_id: item}, {ordering: parseInt(orderings[index])}, (err, result) => {});
-		})
-	}else{ 
-		SlidersModel.updateOne({_id: cids}, {ordering: parseInt(orderings)}, (err, result) => {});
+		await schemaSlider.find(objWhere)
+			.skip((pagination.currentPage - 1) * pagination.totalItemsPerPage)
+			.sort(sort)
+			.limit(pagination.totalItemsPerPage)
+			.then((items) => {
+				res.render(`${folderView}list`, {
+					pageTitle: pageTitle,
+					items: items,
+					statusFilter: statusFilter,
+					currentStatus,
+					keyword,
+					pagination,
+					inform: inform,
+					layout,
+					sortField,
+					sortType
+				});
+			});
+
+	} catch (error) {
+		console.log(error);
 	}
 
-	req.flash('success', notify.CHANGE_ORDERING_SUCCESS, false);
-	res.redirect(linkIndex);
+});
+
+// change status
+router.post('/change-status/(:status)?', async (req, res, next) => {
+	try {
+		if (req.params.status === 'multi') {
+			let arrId = req.body.id.split(",")
+			let status = req.body.status
+			await schemaSlider.updateMany({ _id: { $in: arrId } }, { status: status })
+			res.send({ success: true })
+		} else {
+			let { status, id } = req.body
+			status = (status == 'active') ? 'inactive' : 'active'
+			await schemaSlider.updateOne({ _id: id }, { status: status })
+			res.send({ success: true })
+		}
+
+	} catch (error) {
+		console.log(error);
+	}
+
 });
 
 // Delete
-router.get('/delete/:id', (req, res, next) => {
-	let id				= ParamsHelpers.getParam(req.params, 'id', ''); 	
-	
-	
-	Model.deleteOne(id,'avatar').then((result, err) => {
-		req.flash('success', notify.DELETE_SUCCESS, linkIndex);
-	});
-});
-
-// Delete - Multi
-router.post('/delete', (req, res, next) => {
-	Model.deleteMulti(req.body.cid).then((result, err) => {
-		req.flash('success', util.format(notify.DELETE_MULTI_SUCCESS, result.n), linkIndex);
-	});
-});
-
-// FORM
-router.get(('/form(/:id)?'), (req, res, next) => {
-	let id		= ParamsHelpers.getParam(req.params, 'id', '');
-	let item	= {name: '', ordering: 0, status: 'novalue'};
-	let errors   = null;
-	if(id === '') { // ADD
-		res.render(`${folderView}form`, { pageTitle: pageTitleAdd, item, errors});
-	}else { // EDIT
-		Model.findById(id).then((item) => {
-			res.render(`${folderView}form`, { pageTitle: pageTitleEdit, item, errors});
-		})
+router.post('/delete/(:status)?', async (req, res, next) => {
+	try {
+		if (req.params.status === 'multi') {
+			let arrId = req.body.id.split(",")
+			await schemaSlider.deleteMany({ _id: { $in: arrId } })
+			res.send({ success: true })
+		} else {
+			let id = req.body.id
+			await schemaSlider.deleteOne({ _id: id })
+			res.send({ success: true })
+		}
+	} catch (error) {
+		console.log(error);
 	}
 });
 
-// SAVE = ADD EDIT
-router.post('/save',uploadAvatar,
-	body('name').isLength({ min: 5 ,max:20}).withMessage(util.format(notify.ERROR_NAME,5,20)),
-	body('slug').matches(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).withMessage(notify.ERROR_SLUG),
-	body('ordering').isNumeric().withMessage(notify.ERROR_ORDERING),
-	body('status').not().isIn(['novalue']).withMessage(notify.ERROR_STATUS),
-	body('avatar').custom((value,{req}) => {
-		const {image_uploaded,image_old} = req.body;
-		if(!image_uploaded && !image_old) {
-			return Promise.reject(notify.ERROR_FILE_EMPTY);
-		}
-		if(!req.file && image_uploaded) {
-				return Promise.reject(notify.ERROR_FILE_EXTENSION);
-		}
-		return true;
-	}),
-	(req, res, next) => {
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) {
-			let errorsMsg = {};
-			errors.errors.forEach(value => {
-				errorsMsg[value.param] = value.msg
-			});
-			req.body.avatar = req.body.image_old;
-			res.render(`${folderView}form`, { 
-				pageTitle: pageTitleEdit, 
-				item: req.body,
-				errors: errorsMsg
-			});
-			return;
-		} 
-		let item = req.body;
-		if(item.id){	// edit	
-			if(!req.file){ // không có upload lại hình
-				item.avatar = item.image_old;
-			}else{
-				item.avatar = req.file.filename;
-				FileHelpers.remove(`public/uploads/${Collection}/`, item.image_old);
-			}
-			Model.updateOne(item).then(() => {
-				req.flash('success', notify.EDIT_SUCCESS, linkIndex);
-			});
-		} else { // add
-			item.avatar = req.file.filename;
-			Model.addOne(item).then(()=> {
-				req.flash('success', notify.ADD_SUCCESS, linkIndex);
-			})
-		}	
+// ordering
+
+router.post('/change-ordering',
+body('ordering')
+		.isInt({ min: 0, max: 99 })
+		.withMessage(util.format(notify.ERROR_ORDERING, 0, 99)),
+async (req, res, next) => {
+	try {
+		let { ordering, id } = req.body
+		await schemaSlider.updateOne({ _id: id }, { ordering: ordering })
+		res.send({ success: true })
+	} catch (error) {
+		console.log(error);
+	}
+
 });
+
+// form
+
+router.get('/form(/:id)?', (req, res, next) => {
+	try {
+		let main = {
+			pageTitle: pageTitle,
+		}
+		if (req.params.id != undefined) {
+			schemaSlider.countDocuments({ _id: req.params.id }, async function (err, count) {
+				if (count > 0) {
+					let item = await schemaSlider.find({ _id: req.params.id });
+					res.render(`${folderView}form`, {
+						main: main,
+						item: item[0],
+						layout,
+					});
+				} else {
+					res.redirect(linkIndex);
+				}
+			});
+		} else {
+			res.render(`${folderView}form`, {
+				main: main,
+				item: [],
+				layout
+			});
+		}
+	} catch (error) {
+		console.log(error)
+	}
+});
+
+// save
+
+router.post('/save(/:id)?',
+body('name')
+	.isLength({ min: 5, max: 100 })
+	.withMessage(util.format(notify.ERROR_NAME, 5, 100))
+	.custom(async (val, { req }) => {
+		let paramId = await (req.params.id != undefined) ? req.params.id : 0
+		return await schemaSlider.find({ name: val }).then(async user => {
+			let length = user.length
+			user.forEach((value, index) => {
+				if (value.id == paramId)
+					length = length - 1;
+			})
+			if (length > 0) {
+				return Promise.reject(notify.ERROR_NAME_DUPLICATED)
+			}
+			return
+		})
+	}),
+	body('slug')
+	.isSlug()
+	.withMessage(notify.ERROR_SLUG)
+	.custom(async (val, { req }) => {
+		let paramId = (req.params.id != undefined) ? req.params.id : 0
+		return await schemaSlider.find({ slug: val }).then(async user => {
+			let length = user.length
+			user.forEach((value, index) => {
+				if (value.id == paramId)
+					length = length - 1;
+			})
+			if (length > 0) {
+				return Promise.reject(notify.ERROR_SLUG_DUPLICATED)
+			}
+			return
+		})
+	}),
+	body('ordering')
+		.isInt({ min: 0, max: 99 })
+		.withMessage(util.format(notify.ERROR_ORDERING, 0, 99)),
+	body('status').not().isIn(['novalue']).withMessage(notify.ERROR_STATUS),
+
+	async  (req, res) => {
+		try {
+			let item = req.body;
+		let itemData = [{}]
+		if (req.params.id != undefined) {
+			itemData = await schemaSlider.find({ _id: req.params.id })
+			console.log(itemData);
+		}
+		let errors = await validationResult(req)
+		if (!errors.isEmpty()) {
+			let main = {
+				pageTitle: pageTitle,
+				showError: errors.errors,
+			}
+			if (req.params.id !== undefined) {
+				res.render(`${folderView}form`, {
+					main: main,
+					item: itemData[0],
+					id: req.params.id,
+					layout,
+				})
+			} else {
+				res.render(`${folderView}form`, {
+					main: main,
+					item: req.body,
+					layout
+				})
+			}
+			return
+		}
+		if (req.params.id !== undefined) {
+			await schemaSlider.updateOne({_id: req.params.id}, item)
+			req.flash('success', notify.EDIT_SUCCESS);
+			res.redirect(linkIndex);
+		} else {
+			await schemaSlider(item).save();
+			req.flash('success', notify.ADD_SUCCESS);
+			res.redirect(linkIndex);
+		}
+		} catch (error) {
+			console.log(error);
+		}	
+	});
+
+// Sort
+router.get('/sort/:sort_field/:sort_type', (req, res, next) => {
+	req.session.sortField = ParamsHelpers.getParam( req.params, 'sort_field', '');
+	req.session.sortType = ParamsHelpers.getParam( req.params, 'sort_type', '');
+	res.redirect(linkIndex)
+});	
 
 module.exports = router;

@@ -1,0 +1,102 @@
+
+<%- include('./../../helpers/showerror'); -%>
+<%- include('./../../helpers/groupsHelp'); -%>
+<% 
+	const collection = "users";
+	const linkPrefix = "/" + systemConfig.prefixAdmin + `/${collection}/`;
+    const linkThumb = "/" + "uploads" + `/${collection}/`;
+%>
+
+<%- showError(main.showError) %>
+<div class="card card-info card-outline">
+    <form action="<%= linkPrefix %>save/<%= item.id %>" method="post" class="mb-0" enctype="multipart/form-data">
+        <div class="card-body">
+            <%= main.pageTitle %>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label text-sm-right required">Name</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" id="name-input-form" name="name" value="<%= item.name %>" class="form-control form-control-sm"></div>
+                </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label text-sm-right required">Slug</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="slug" id="slug-input-form" value="<%= item.slug %>" class="form-control form-control-sm"></div>
+                </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label text-sm-right required">Ordering</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="ordering" value="<%= item.ordering %>" class="form-control form-control-sm"></div>
+                </div>
+            <div class="form-group row">
+                <label for="status" class="col-sm-2 col-form-label text-sm-right">Status</label>
+                <div class="col-xs-12 col-sm-8">
+                    <select id="status" name="status" class="custom-select custom-select-sm">
+                        <option value="novalue">Choose Status</option>
+                        <option value="active" <%= (item.status == "active") ? 'selected="selected"' : '' %>>
+                            Active</option>
+                        <option value="inactive" <%= (item.status == "inactive") ? 'selected="selected"' : '' %>>
+                            Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="group" class="col-sm-2 col-form-label text-sm-right">Groups</label>
+                <div class="col-xs-12 col-sm-8">
+                    <%- groupSelectHelper('group_id', main.groupsItems, item.group_id) %>
+                </div>
+            </div>
+            <div class="form-group row uploadImage">
+                <label for="thumb" class="col-sm-2 col-form-label text-sm-right">Upload Image</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input id="ImageMediasArticle" name="thumb" type="file" class="custom-file-input" value="Article">
+                    <div id="divImageMediaPreviewArticle">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row ckeditor">
+                <label for="uploaded" class="col-sm-2 col-form-label text-sm-right">Image Uploaded</label>
+            <% if (item.thumb != undefined) { %>
+                <img style="width: 40%; padding: 10px" src="<%= linkThumb %><%= item.thumb%>" alt="thumb" onerror="this.onerror=null;this.src='<%= linkThumb %>/no-image-found.jpg'">
+                <%}  %>
+            </div>
+            <div class="form-group row ckeditor">
+                <label for="description" class="col-sm-2 col-form-label text-sm-right">Description</label>
+                <textarea id="summernote" name="editordata">
+                </textarea>
+            </div>
+        </div>
+            <div class="card-footer">
+                <div class="col-12 col-sm-8 offset-sm-2">
+                    <input class="form-control" name="id" value="" type="hidden">
+                    <input type="hidden" class="form-control"  value=""  name="group_name"/>
+                    <input name="image_old" value="<%= item.thumb%>" type="hidden">
+                    <input name="image_uploaded" value="" type="hidden" id="image_uploaded">
+                        <button type="submit" class="btn btn-sm btn-success mr-1">
+                            Submit</button>
+                        <a href="<%= linkPrefix %>" class="btn btn-sm btn-danger mr-1">
+                            Cancel</a>
+                    </div>
+                </div>
+                        </form>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/plugins/jquery-ui/jquery-ui.min.js"></script> 
+<!-- Summernote -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>        
+<script>
+       var editorData = `<%- item.editordata %>`;
+       console.log(editorData);
+       $('#summernote').summernote('code', editorData);
+       ImageMediasArticle.onchange = evt => {
+           const [file] = ImageMediasArticle.files
+           if (file) {
+               image_uploaded.setAttribute('value','uploaded')
+           } else{
+               image_uploaded.setAttribute('value','')
+           }
+       }
+</script>
+
+

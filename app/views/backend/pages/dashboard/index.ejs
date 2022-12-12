@@ -1,0 +1,31 @@
+<%  
+    let arrBox = [
+        {name: 'Category', icon: 'ion-connection-bars', link: `category`, background: 'bg-danger'},
+        {name: 'Sliders', icon: 'ion-images', link: `sliders`, background: 'bg-success'},
+        {name: 'Article', icon: 'ion-ios-paper', link: `article`, background: 'bg-primary'},
+        {name: 'Menu', icon: 'ion-android-menu', link: `menu`, background: 'bg-dark'},
+        {name: 'Group', icon: 'ion-android-menu', link: `group`, background: 'bg-warning'},
+        {name: 'Users', icon: 'ion-android-menu', link: `users`, background: 'bg-secondary'},
+        <!-- {name: 'Rss', icon: 'ion-social-rss', link: `${systemConfig.prefixAdmin}/rss`, background: 'bg-info'}, -->
+    ];
+
+    let xhtmlBox = '<div class="row">';
+    arrBox.forEach((value, index) => {
+        console.log(value);
+        xhtmlBox += `<div class="col-lg-3 col-6">
+                        <div class="small-box ${value.background}">
+                            <div class="inner">
+                                <h3>${count[value.name]}</h3>
+                                <p>${value.name}</p>
+                            </div>
+                            <div class="icon text-white">
+                                <i class="ion ${value.icon}"></i>
+                            </div>
+                            <a href= "/${systemConfig.prefixAdmin}/${value.link}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>`;
+    });
+    xhtmlBox += '</div>';   
+%>
+
+<%- xhtmlBox %>

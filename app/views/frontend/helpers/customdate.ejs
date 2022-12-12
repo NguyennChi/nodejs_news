@@ -1,0 +1,9 @@
+<% 
+    customDate = (data) =>{
+        var date = data.toLocaleDateString().split("/")
+        let dd = (date[1].length < 2) ? ("0"+date[1]) : date[1]
+        let mm = (date[0].length < 2) ? ("0"+date[0]) : date[0]
+        let yyyy = date[2]
+        return `${dd}-${mm}-${yyyy}`
+    }
+%>

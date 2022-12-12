@@ -1,0 +1,50 @@
+.btn-search > button {
+    margin-right: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+.form-group.ckeditor .card-body{
+    width: 50%;
+    padding: 0;
+    padding-left: 10px
+}
+
+.note-editor{
+    width: 66%;
+    padding: 0;
+    margin-left: 6px;
+}
+.nav-sidebar .nav-treeview {
+    padding-left: 30px;
+}
+.nav-sidebar .nav-link p {
+    padding-left: 7px;
+}
+#ImageMediasArticle, #ImageMediasSmall, #ImageMediasLarge, #ImageMediasTitle, #ImageMediasBanner {
+    opacity: 1;
+}
+
+td > .thumb-product{
+    width: 200px;
+}
+
+td > .ordering {
+    width: 60px;
+}
+
+table td div.option {
+  text-align: left;
+}
+
+.opacity-100{
+    opacity: 50%;
+}
+td > .thumb-user{
+    width: 100px;
+}
+.pd-10{
+   margin-bottom: 10px;
+}

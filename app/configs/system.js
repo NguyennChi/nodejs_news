@@ -1,6 +1,3 @@
-
-module.exports = {
-    prefixAdmin: 'adminCCC',
-    env: 'production',
-    prefixBlog: '',
-};
+module.exports={
+    prefixAdmin: 'admin123'
+}

@@ -1,0 +1,23 @@
+<% 
+
+    statusHelper = (collection, status, id) => {
+        let idItems = id;
+        let xhtmlStatus = '';
+        let icon =''
+        let link       = '/' + systemConfig.prefixAdmin + '/' + collection + '/change-status/' ;
+        if(status === "active") {
+            xhtmlStatus = 'btn-success';
+            icon = 'fa-check'
+        }else if (status === "inactive") {
+            xhtmlStatus = 'btn-danger';
+            icon = 'fa-ban';
+        }
+        <!-- console.log(link) -->
+        <!-- return `<a href="${link}" class="rounded-circle btn btn-sm ${xhtmlStatus}"><i class="fas fa-check"></i></a>`; -->
+        return `<a href="javascript:" onClick="changeStatus('${status}','${id}', '${link}')" id="change-status-${id}" class="rounded-circle btn btn-sm ${xhtmlStatus}"><i class="fas ${icon}"></i></a>`;
+    }
+%>
+
+
+
+

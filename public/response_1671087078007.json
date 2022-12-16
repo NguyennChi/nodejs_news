@@ -1,0 +1,42 @@
+[
+  {
+    "buy": "65.800",
+    "sell": "66.600",
+    "type": "Vàng SJC 1L - 10L"
+  },
+  {
+    "buy": "52.950",
+    "sell": "53.950",
+    "type": "Vàng nhẫn SJC 99,99 1 chỉ, 2 chỉ, 5 chỉ"
+  },
+  {
+    "buy": "52.950",
+    "sell": "54.050",
+    "type": "Vàng nhẫn SJC 99,99 0,5 chỉ"
+  },
+  {
+    "buy": "52.750",
+    "sell": "53.550",
+    "type": "Vàng nữ trang 99,99%"
+  },
+  {
+    "buy": "51.720",
+    "sell": "53.020",
+    "type": "Vàng nữ trang 99%"
+  },
+  {
+    "buy": "38.317",
+    "sell": "40.317",
+    "type": "Vàng nữ trang 75%"
+  },
+  {
+    "buy": "29.373",
+    "sell": "31.373",
+    "type": "Vàng nữ trang 58,3%"
+  },
+  {
+    "buy": "20.483",
+    "sell": "22.483",
+    "type": "Vàng nữ trang 41,7%"
+  }
+]

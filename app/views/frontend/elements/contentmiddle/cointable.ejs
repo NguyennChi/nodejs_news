@@ -1,0 +1,23 @@
+<%- include('./../../helpers/showcoinprice'); -%>
+<%- include('./../../helpers/showgoldprice'); -%>
+
+<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a href="#" class="title_text">BẢNG
+  GIÁ COIN</a> </h2>
+<ul class="catg1_nav">
+<div class="container-coin ">
+  <table class="table crypto-table">
+    <thead>
+      <tr>
+        <th scope="col">Tên</th>
+        <th scope="col">Giá</th>
+        <th scope="col">24h %</th>
+        <!-- <th scope="col">1h %</th> -->
+      </tr>
+    </thead>
+    <tbody>
+          <%- showCoinPrice(coinPrice) %>
+    </tbody>
+  </table>
+</div>
+
+</ul>

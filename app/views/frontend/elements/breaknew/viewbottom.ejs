@@ -1,0 +1,16 @@
+
+<%- include('./../../helpers/showbreakingnewsbottom'); -%>
+
+<% 
+    const articlePhoto = "article"
+    let breakingnews = articleHome.filter(obj =>
+        obj.breakingnews === true
+    )
+   
+%>
+
+<ul class="small_catg wow fadeInDown">
+    <li>
+      <%- showBreakingNewsBottom(breakingnews, articlePhoto) %>   
+    </li>
+  </ul>

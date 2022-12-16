@@ -1,0 +1,41 @@
+<%
+showWeather = (collection) =>{
+        let html=''
+        collection.forEach((item, index)=>{
+            if (index == 0){
+                html += `
+                <div class="wrapper" id="weather-${item.id}" style="display: block">
+                    <section class="main">
+                        <img src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/4th%20Set%20-%20Color/${item.currentConditions.icon}.png" alt="Weather widget">
+                        <p >
+                            ${item.currentConditions.temp}<span >&#8451</span>
+                        </p>
+                    </section>
+                    <section class="footer">
+                        <p class="wind">${item.currentConditions.humidity} m</p>
+                        <p class="humidity">${item.currentConditions.humidity} %</p>
+                        <p class="pressure">${item.currentConditions.pressure} hPa</p>
+                    </section>
+                </div>
+                `
+            } else {
+                html+=`
+                    <div class="wrapper" id="weather-${item.id}" style="display: none">
+                        <section class="main">
+                            <img src="https://raw.githubusercontent.com/visualcrossing/WeatherIcons/main/PNG/4th%20Set%20-%20Color/${item.currentConditions.icon}.png" alt="Weather widget">
+                            <p >
+                                ${item.currentConditions.temp}<span >&#8451</span>
+                            </p>
+                        </section>
+                        <section class="footer">
+                            <p class="wind">${item.currentConditions.humidity} m</p>
+                            <p class="humidity">${item.currentConditions.humidity} %</p>
+                            <p class="pressure">${item.currentConditions.pressure} hPa</p>
+                        </section>
+                    </div>
+                `
+            }
+        })
+        return html
+    }
+%>

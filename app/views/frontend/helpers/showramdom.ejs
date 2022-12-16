@@ -1,0 +1,18 @@
+<%- include('./showCategoryName'); -%>
+<%- include('./customdate'); -%>
+
+
+<% 
+    showSlider = (collection, category, photo) => {
+        let html=''
+        collection.forEach((val, index)=>{
+                if (index > 4) return;
+                html += `
+                    <div class="single_featured_slide"> <a href="pages/single.html"><img src="/uploads/${photo}/${val.thumb}" alt=""></a>
+                      <h2><a href="pages/single.html">${val.name}</a></h2>
+                      <p>Nunc tincidunt, elit non cursus euismod, lacus augue ornare metus, egestas imperdiet nulla nisl quis mauris. Suspendisse a pharetra urna. Morbi dui lectus, pharetra nec elementum eget, vulput...</p>
+                    </div>`
+        })
+        return html
+    }
+%>

@@ -1,0 +1,16 @@
+<% 
+showGoldPrice = (collection) =>{ 
+      let html =''
+      collection = collection.slice(0,5)
+      collection.forEach((item,index)=>{
+        html+=`
+          <tr>
+            <td><img src="/frontend/images/goldpriceimg/iconGold.jpg" /><span class="textCoin">${item.type}</span></td>
+            <td class="text-danger">VNĐ ${item.sell}</td>
+            <td class="text-success">VNĐ ${item.buy}</td>
+          </tr>
+        `
+      })
+      return html
+  }
+%>

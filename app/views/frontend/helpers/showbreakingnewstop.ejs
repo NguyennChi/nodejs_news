@@ -1,0 +1,13 @@
+<%- include('./customdate'); -%>
+<%
+    showBreakingNewsTop = (collection,photo) =>{
+        let html = ""
+        collection.forEach((val, index)=>{
+            html = ` <div class="catgimg2_container"> <a href="pages/single.html"><img alt="" src="/uploads/${photo}/${val.thumb}" style="object-fit: cover;"></a> </div>
+            <h2 class="catg_titile"><a href="#">${val.name}</a></h2>
+            <div class="comments_box"> <span class="meta_date">${customDate(val.createdAt)}</span> <span class="meta_comment"><a href="#">No Comments</a></span> <span class="meta_more"><a  href="#">Read More...</a></span> </div>
+            `
+            })
+            return html
+    }
+%>

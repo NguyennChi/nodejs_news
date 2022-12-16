@@ -1,0 +1,45 @@
+<div class="col-lg-4 col-md-4">
+  
+  <div class="content_bottom_right">
+    <%- include('./popularnew'); -%>
+    <div class="single_bottom_rightbar">
+      <ul role="tablist" class="nav nav-tabs custom-tabs">
+        <li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#mostPopular">Tin yêu thích</a></li>
+        <li role="presentation"><a data-toggle="tab" role="tab" aria-controls="messages" href="#recentComent">Tin đã xem</a></li>
+      </ul>
+      <div class="tab-content">
+        <div id="mostPopular" class="tab-pane fade in active" role="tabpanel">
+          <ul class="small_catg popular_catg wow fadeInDown">
+            <%- include('./lovenew'); -%>
+          </ul>
+        </div>
+        <div id="recentComent" class="tab-pane fade" role="tabpanel">
+          <ul class="small_catg popular_catg">
+            <%- include('./seennew'); -%>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="single_bottom_rightbar">
+      <h2>ĐĂNG KÍ NHẬN TIN</h2>
+      <div class="blog_archive wow fadeInDown">
+        <form action="#">
+          <select>
+            <option value="">Blog Archive</option>
+            <option value="">October(20)</option>
+          </select>
+        </form>
+      </div>
+    </div>
+    <div class="single_bottom_rightbar wow fadeInDown">
+      <h2>Popular Links</h2>
+      <ul>
+        <li><a href="#">Trang Chủ</a></li>
+        <li><a href="#">Tin Tức</a></li>
+        <li><a href="#">Khám Phá</a></li>
+        <li><a href="#">Social link</a></li>
+        <li><a href="#">Login</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

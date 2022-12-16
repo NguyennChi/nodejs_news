@@ -1,0 +1,23 @@
+<%- include('./../../helpers/showfeaturenewsright'); -%>
+
+
+<% 
+    const collection = "index";
+    const articlePhoto = "article"
+  
+
+    let fearture = articleHome.filter(obj =>
+        obj.fearture === true
+        )
+%>
+
+
+
+<div class="business_category_right wow fadeInDown">
+    <ul class="small_catg">
+      <li>
+        <%- showFeatureNewsRight(fearture, category, articlePhoto) %>  
+      </li>
+
+    </ul>
+  </div>

@@ -1,0 +1,21 @@
+<%- include('./showCategoryName'); -%>
+<%- include('./customdate'); -%>
+
+
+<% 
+    showFeatureNewsRight = (collection, category, photo) => {
+        let html=''
+        collection.forEach((val, index)=>{
+                if (index > 10) return;
+                html += `<div class="media wow fadeInDown"> <a class="media-left" href="#"><img src="/uploads/${photo}/${val.thumb}" style="object-fit: cover;"alt=""></a>
+                    <div class="media-body">
+                      <h4 class="media-heading"><a href="#">${val.name}</a></h4>
+                      <div class="comments_box"> <span class="meta_date">${customDate(val.createdAt)}</span> <span class="meta_comment"><a href="#">No Comments</a></span> </div>
+                    </div>
+                  </div>
+                `
+        })
+        return html
+    }
+%>
+

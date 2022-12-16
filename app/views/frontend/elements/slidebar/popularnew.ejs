@@ -1,0 +1,14 @@
+<%- include('./../../helpers/showarticlerandom'); -%>
+
+<% 
+    const articlePhoto = "article"
+%>
+
+<div class="single_bottom_rightbar">
+    <h2>TIN NGẪU NHIÊN</h2>
+    <ul class="small_catg popular_catg wow fadeInDown">
+      <li>
+        <%- showArticleRandom(article, category, articlePhoto) %>   
+      </li>
+    </ul>
+  </div>

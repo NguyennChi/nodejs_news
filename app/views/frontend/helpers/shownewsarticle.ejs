@@ -1,0 +1,47 @@
+<%- include('./showCategoryName'); -%>
+<%- include('./customdate'); -%>
+
+
+<% 
+    showNewsArticle = (collection, category, photo, numberPostLast, keyword) => {
+        let name= ''
+        let html=''
+        let compare = (number) => {
+            let result = 0
+            for (let i=0; i <= number; i++){
+                result += numberPostLast[i]
+            }
+            return result
+        }
+        collection.forEach((val, index)=>{
+                name = val.name
+                if (keyword != undefined){
+                    keywordCompare = new RegExp(keyword, 'ig')
+                    name = name.replaceAll(keywordCompare, `<span style="background-color: yellow;">${keyword}</span>`)
+                }
+                if (index < compare(1)){
+                    html = `<ul class="fashion_catgnav wow fadeInDown">
+                        <li>
+                            <div class="catgimg2_container"> <a href="#"><img alt=""  src="/uploads/${photo}/${val.thumb}" style="object-fit: cover;"></a> </div>
+                            <h2 class="catg_titile"><a href="#">${name}</a></h2>
+                            <div class="comments_box"> <span class="meta_date">${customDate(val.createdAt)}</span> <span class="meta_comment"><a href="#">No Comments</a></span> <span class="meta_more"><a  href="#">Read More...</a></span> </div>
+                        </li>
+                      </ul>
+                     `
+                } else if(index < compare(2)){
+                    html+=`
+                    <ul class="small_catg wow fadeInDown">
+                        <li>
+                            <div class="media"> <a class="media-left" href="#"><img  src="/uploads/${photo}/${val.thumb}" style="object-fit: cover;" alt=""></a>
+                                <div class="media-body">
+                                  <h4 class="media-heading pt-10"><a href="#">${name}</a></h4>
+                                  <div class="comments_box"> <span class="meta_date">${customDate(val.createdAt)}</span> <span class="meta_comment"><a href="#">No Comments</a></span> </div>
+                                </div>
+                              </div>
+                        </li>
+                    </ul> `
+                }
+        })
+        return html
+    }
+%>

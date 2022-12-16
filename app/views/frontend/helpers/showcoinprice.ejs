@@ -1,0 +1,22 @@
+<% 
+showCoinPrice = (collection) =>{
+      collection = collection.slice(0,6)
+      let html =''
+      collection.forEach((item,index)=>{
+        let svg = item.name.toLowerCase().replaceAll(' ','')
+        let colorPercent1h = (item.percent_change_1h < 0) ? "text-danger" : "text-success"
+        let colorPercent24h = (item.percent_change_24h < 0) ? "text-danger" : "text-success"
+        let iconPercent1h = (item.percent_change_1h < 0) ? "fa fa-arrow-down" : "fa fa-arrow-up"
+        let iconPercent24h = (item.percent_change_24h < 0) ? "fa fa-arrow-down" : "fa fa-arrow-up"
+        html+=`
+          <tr>
+            <td><img src="/frontend/images/coinpriceimg/${svg}.svg" /><span class="textCoin">${item.name}</span></td>
+            <td class="textCoin">$ ${item.price.toFixed(2)}</td>
+            <td class="${colorPercent24h}">${item.percent_change_24h.toFixed(2)}<i class="${iconPercent24h}"></i></td>
+            <!-- <td class="${colorPercent1h}">${item.percent_change_1h.toFixed(2)} <i class="${iconPercent1h}"></i></td> -->
+          </tr>
+        `
+      })
+      return html
+  }
+%>

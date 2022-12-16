@@ -1,0 +1,16 @@
+
+<%- include('./../../helpers/showweatheroption'); -%>
+<%- include('./../../helpers/showweather'); -%>
+
+<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a href="#"
+        class="title_text">DỰ BÁO THỜI TIẾT</a> </h2>
+<ul class="containerWheather catgimg_container">
+    <article>
+    <section class="header">
+        <select name="city" id="cityName">
+           <%- showWeatherOption(dataWeather) %>
+        </select>
+    </section>
+        <%- showWeather(dataWeather) %>
+</article>
+</ul>

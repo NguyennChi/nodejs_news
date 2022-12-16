@@ -1,0 +1,28 @@
+
+<%- include('./../../helpers/showfeaturenewsleft'); -%>
+
+
+<% 
+    const collection = "index";
+    const articlePhoto = "article"
+    let numberPostLast = [4, 4, 1, 4]
+    let fearture = articleHome.filter(obj =>
+        obj.fearture === true
+    )
+%>
+<div class="business_category_left wow fadeInDown">
+    <ul class="fashion_catgnav">
+      <li>
+        <%- showFeatureNewsLeft(fearture, category, articlePhoto) %>
+      </li>
+    </ul>
+  </div>
+
+
+
+
+
+
+
+
+  

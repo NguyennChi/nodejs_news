@@ -1,0 +1,17 @@
+<%
+    showWeatherOption  = (collection) =>{
+        let html=''
+        collection.forEach((item, index)=>{
+            if (index == 0){
+                html += `
+                    <option value="weather-${item.id}">${item.resolvedAddress}</option>
+                `
+            } else{
+                html+=`
+                    <option value="weather-${item.id}">${item.resolvedAddress}</option>
+                `
+            }
+        })
+        return html
+    }
+%>
